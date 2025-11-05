@@ -1,3 +1,4 @@
+from sklearn.metrics import accuracy_score
 import numpy as np
 
 class Perceptron:
@@ -22,24 +23,27 @@ class Perceptron:
     def predict(self, X):
         resultado = self.predict_raw(X)
         return "Chove" if resultado == 1 else "Não chove"
-
-
-
-# Dados fictícios: [umidade, pressão, temperatura, nuvens, vento]
+    
+# Dados fictícios
 X = np.array([
-    [85, 1005, 28, 8, 12],   # choveu
-    [40, 1018, 32, 2, 5],    # não choveu
-    [78, 1007, 30, 7, 15],   # choveu
-    [55, 1020, 33, 3, 6]     # não choveu
+    [85, 1005, 28, 8, 12],
+    [40, 1018, 32, 2, 5],
+    [78, 1007, 30, 7, 15],
+    [55, 1020, 33, 3, 6],
+    [88, 1006, 27, 9, 11]
 ])
+y = np.array([1, 0, 1, 0, 1])  # 1 = Chove, 0 = Não chove
 
-# Saída: 1 = Chove, 0 = Não chove
-y = np.array([1, 0, 1, 0])
+# Testando com diferentes parâmetros
+configs = [
+    {"epochs": 5, "lr": 0.5},
+    {"epochs": 20, "lr": 0.1},
+    {"epochs": 100, "lr": 0.01}
+]
 
-# Treinamento
-p = Perceptron(lr=0.01, epochs=50)
-p.fit(X, y)
-
-# Testando previsão
-teste = np.array([0, 0, 0, 0, 0])  # condições novas
-print(p.predict(teste))
+for cfg in configs:
+    p = Perceptron(lr=cfg["lr"], epochs=cfg["epochs"])
+    p.fit(X, y)
+    y_pred = [p.predict_raw(xi) for xi in X]
+    acc = accuracy_score(y, y_pred)
+    print(f"Épocas={cfg['epochs']} | LR={cfg['lr']} -> Acurácia: {acc:.2f}")
