@@ -1,5 +1,4 @@
-# Projeto IA — Códigos das Aulas
-# 2025/02
+# Projeto IA — Códigos das Aulas 2025/02
 
 Descrição
 - Repositório com os códigos das aulas de Inteligência Artificial, exemplos e notebooks.
